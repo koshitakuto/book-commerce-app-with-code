@@ -20,7 +20,6 @@ export default async function Home() {
         `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
         { cache: "no-store" } // SSR用
       );
-      /* eslint-enable @typescript-eslint/no-unused-vars */
       const purchasesData = await response.json();
 
       console.log("API response:", purchasesData); // デバッグ用
