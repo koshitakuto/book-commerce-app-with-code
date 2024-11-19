@@ -8,7 +8,7 @@ export default async function ProfilePage() {
   const session = await getServerSession(nextAuthOptions);
   const user = session?.user as User;
 
-  let purchasesDetailBooks: BookType[] = [];
+  let purchasesDentailBooks: BookType[] = [];
 
   if (user) {
     const response = await fetch(
@@ -17,7 +17,7 @@ export default async function ProfilePage() {
     );
     const purchasesData = await response.json();
 
-    purchasesDetailBooks = await Promise.all(
+    purchasesDentailBooks = await Promise.all(
       purchasesData.map(async (purchase: Purchase) => {
         return await getDetailBook(purchase.bookId);
       })
@@ -44,10 +44,10 @@ export default async function ProfilePage() {
 
       <span className="font-medium text-lg mb-4 mt-4 block">購入した記事</span>
       <div className="flex items-center gap-6">
-        {purchasesDetailBooks.map((purchasesDetailBook: BookType) => (
-          <purchasesDetailBook
-            key={purchasesDetailBook.id}
-            purchasesDetailBooks={purchasesDetailBook}
+        {purchasesDentailBooks.map((purchasesDentailBook: BookType) => (
+          <purchasesDentailBook
+            key={purchasesDentailBook.id}
+            purchasesDentailBooks={purchasesDentailBook}
           />
         ))}
       </div>

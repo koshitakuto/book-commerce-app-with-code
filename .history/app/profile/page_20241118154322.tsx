@@ -8,15 +8,17 @@ export default async function ProfilePage() {
   const session = await getServerSession(nextAuthOptions);
   const user = session?.user as User;
 
+  // 初期化
   let purchasesDetailBooks: BookType[] = [];
 
   if (user) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
-      { cache: "no-store" } //SSR
+      { cache: "no-store" } // SSR
     );
     const purchasesData = await response.json();
 
+    // 書籍データを取得
     purchasesDetailBooks = await Promise.all(
       purchasesData.map(async (purchase: Purchase) => {
         return await getDetailBook(purchase.bookId);
@@ -32,23 +34,23 @@ export default async function ProfilePage() {
         <div className="flex items-center">
           <Image
             priority
-            src={user.image || "/default_icon.png"}
+            src={user?.image || "/default_icon.png"}
             alt="user profile_icon"
             width={60}
             height={60}
             className="rounded-t-md"
           />
-          <h2 className="text-lg ml-4 font-semibold">お名前：{user.name}</h2>
+          <h2 className="text-lg ml-4 font-semibold">お名前：{user?.name}</h2>
         </div>
       </div>
 
       <span className="font-medium text-lg mb-4 mt-4 block">購入した記事</span>
-      <div className="flex items-center gap-6">
-        {purchasesDetailBooks.map((purchasesDetailBook: BookType) => (
-          <purchasesDetailBook
-            key={purchasesDetailBook.id}
-            purchasesDetailBooks={purchasesDetailBook}
-          />
+      <div className="flex flex-wrap gap-6">
+        {purchasesDetailBooks.map((book: BookType) => (
+          <div key={book.id} className="border p-4 rounded shadow-md">
+            <h3 className="text-lg font-semibold">{book.title}</h3>
+            <p className="text-sm text-gray-600">{book.description}</p>
+          </div>
         ))}
       </div>
     </div>

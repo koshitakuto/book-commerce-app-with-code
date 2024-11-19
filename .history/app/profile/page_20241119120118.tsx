@@ -43,14 +43,11 @@ export default async function ProfilePage() {
       </div>
 
       <span className="font-medium text-lg mb-4 mt-4 block">購入した記事</span>
-      <div className="flex items-center gap-6">
-        {purchasesDetailBooks.map((purchasesDetailBook: BookType) => (
-          <purchasesDetailBook
-            key={purchasesDetailBook.id}
-            purchasesDetailBooks={purchasesDetailBook}
-          />
-        ))}
-      </div>
+<div className="flex flex-wrap gap-6">
+  <{purchasesDetailBooks.map((book: BookType) => (
+    <div key={book.id} className="border p-4 rounded shadow-md">
+      <h3 className="text-lg font-semibold">{book.title}</h3>
+      <p className="text-sm text-gray-600">{book.description}</p>
     </div>
-  );
-}
+  ))}
+</div>
